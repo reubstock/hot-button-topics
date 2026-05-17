@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hot Button Topics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Hot Button Topics</h1>
+    <p class="tagline">Press at your own risk.</p>
+  </header>
+
+  <main id="stage">
+    <div id="flash" class="hidden"></div>
+    <div id="wall" aria-label="Wall of topics">
+      <div class="wall-sign">⚠ HIGH VOLTAGE</div>
+    </div>
+
+    <div id="floor">
+      <div id="avatar-wrap" style="left: 50%;">
+        <div id="speech" class="speech hidden"></div>
+        <svg id="avatar" viewBox="0 0 60 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Legs -->
+          <g id="legs">
+            <rect class="leg leg-left"  x="22" y="78" width="6" height="26" rx="2" fill="#2d2118"/>
+            <rect class="leg leg-right" x="32" y="78" width="6" height="26" rx="2" fill="#2d2118"/>
+          </g>
+
+          <!-- Body -->
+          <g id="body">
+            <rect x="19" y="40" width="22" height="42" rx="4" fill="#b73a3a"/>
+            <rect x="19" y="40" width="22" height="6" fill="#922c2c"/>
+            <circle cx="30" cy="55" r="1.6" fill="#f5e6c8"/>
+            <circle cx="30" cy="63" r="1.6" fill="#f5e6c8"/>
+            <circle cx="30" cy="71" r="1.6" fill="#f5e6c8"/>
+          </g>
+
+          <!-- Neck stub (shows when headless) -->
+          <g id="neck">
+            <rect x="27" y="36" width="6" height="6" rx="1" fill="#922c2c"/>
+            <circle cx="30" cy="36" r="3" fill="#6a1f1a"/>
+          </g>
+
+          <!-- Arms -->
+          <g id="arm-left" class="arm">
+            <rect x="12" y="42" width="6" height="30" rx="3" fill="#f0c9a3"/>
+          </g>
+          <g id="arm-right" class="arm">
+            <rect x="42" y="42" width="6" height="30" rx="3" fill="#f0c9a3"/>
+          </g>
+
+          <!-- Head -->
+          <g id="head">
+            <circle cx="30" cy="24" r="15" fill="#f0c9a3"/>
+            <path d="M16 21 Q30 8 44 21 L44 14 Q30 4 16 14 Z" fill="#2d2118"/>
+            <circle cx="25" cy="25" r="1.6" fill="#1a1410"/>
+            <circle cx="35" cy="25" r="1.6" fill="#1a1410"/>
+            <path d="M25 32 Q30 35 35 32" stroke="#1a1410" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <!-- Debris layer (added dynamically on explode) -->
+          <g id="debris"></g>
+        </svg>
+        <div id="shadow"></div>
+      </div>
+    </div>
+
+    <div id="boom" class="hidden">💥</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="counters">
+      <span><strong id="hits">0</strong> enlightened</span>
+      <span class="dot">·</span>
+      <span><strong id="booms">0</strong> exploded</span>
+    </div>
+    <button id="reset" type="button">Reset wall</button>
+  </footer>
+
+  <script src="game.js"></script>
+</body>
+</html>
