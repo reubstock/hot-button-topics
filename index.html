@@ -23,7 +23,6 @@
 
     <div id="floor">
       <div id="avatar-wrap" style="left: 50%;">
-        <div id="speech" class="speech hidden"></div>
         <svg id="avatar" viewBox="0 0 60 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <!-- Legs -->
           <g id="legs">
@@ -62,16 +61,27 @@
             <circle cx="35" cy="25" r="1.6" fill="#1a1410"/>
             <path d="M25 32 Q30 35 35 32" stroke="#1a1410" stroke-width="1.4" fill="none" stroke-linecap="round"/>
           </g>
-
-          <!-- Debris layer (added dynamically on explode) -->
-          <g id="debris"></g>
         </svg>
         <div id="shadow"></div>
       </div>
     </div>
 
+    <!-- Explosion FX layers, positioned at button on press -->
+    <div id="shockwave" class="hidden"></div>
+    <div id="fireball" class="hidden"></div>
     <div id="boom" class="hidden">💥</div>
+    <div id="stage-debris"></div>
   </main>
+
+  <!-- Reveal card -->
+  <div id="card-backdrop" class="hidden" aria-hidden="true">
+    <div id="card" role="dialog" aria-modal="true" aria-labelledby="card-topic">
+      <div class="card-icon" id="card-icon">💥</div>
+      <h2 class="card-topic" id="card-topic">Topic</h2>
+      <p class="card-blurb" id="card-blurb">Blurb here.</p>
+      <button type="button" class="card-dismiss" id="card-dismiss">Continue</button>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="counters">

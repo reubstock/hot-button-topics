@@ -8,6 +8,7 @@
   --hot: #e23a2e;
   --hot-deep: #8a1a14;
   --hot-glow: rgba(255, 90, 60, 0.55);
+  --cool: #ffd76b;
   --text: #f5e6c8;
   --muted: #9c8b73;
 }
@@ -167,15 +168,18 @@ body {
   height: 64px;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 32% 28%, #ff7060 0%, var(--hot) 38%, var(--hot-deep) 100%);
+    radial-gradient(circle at 32% 28%,
+      var(--btn-light, #c98aff) 0%,
+      var(--btn-base, #a155ff) 38%,
+      var(--btn-dark, #6024aa) 100%);
   box-shadow:
     0 0 0 4px #1a0e0a,
     0 0 0 6px #3a1f17,
     0 8px 14px rgba(0,0,0,0.5),
     inset 0 -6px 10px rgba(0,0,0,0.4),
     inset 0 3px 6px rgba(255,255,255,0.25),
-    0 0 22px var(--hot-glow);
-  transition: transform 120ms ease, box-shadow 120ms ease;
+    0 0 22px var(--btn-glow, rgba(160, 80, 255, 0.55));
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 240ms ease;
 }
 
 .hot-button .dome::before {
@@ -189,7 +193,7 @@ body {
   pointer-events: none;
 }
 
-.hot-button:hover:not(:disabled) .dome {
+.hot-button:hover:not(:disabled):not(.spent) .dome {
   transform: translateY(-2px) scale(1.04);
   box-shadow:
     0 0 0 4px #1a0e0a,
@@ -197,7 +201,7 @@ body {
     0 12px 18px rgba(0,0,0,0.55),
     inset 0 -6px 10px rgba(0,0,0,0.4),
     inset 0 3px 6px rgba(255,255,255,0.3),
-    0 0 32px var(--hot-glow);
+    0 0 32px var(--btn-glow, rgba(255,255,255,0.4));
 }
 
 .hot-button.pressing .dome {
@@ -207,12 +211,23 @@ body {
     0 0 0 6px #3a1f17,
     0 2px 4px rgba(0,0,0,0.5),
     inset 0 4px 8px rgba(0,0,0,0.6),
-    0 0 40px var(--hot-glow);
+    0 0 40px var(--btn-glow, rgba(255,255,255,0.4));
+}
+
+/* Spent buttons: depressed, dim, and reveal their label */
+.hot-button.spent { cursor: default; opacity: 1; }
+.hot-button.spent .dome {
+  filter: grayscale(0.7) brightness(0.55);
+  transform: scale(0.8) translateY(3px);
+  box-shadow:
+    0 0 0 4px #1a0e0a,
+    0 0 0 6px #2a1812,
+    inset 0 4px 8px rgba(0,0,0,0.7);
 }
 
 .hot-button .label {
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-align: center;
   color: #e9d5b0;
@@ -220,7 +235,17 @@ body {
   text-shadow: 0 1px 2px rgba(0,0,0,0.7);
   max-width: 90px;
   min-height: 1.8em;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 300ms ease 100ms;
 }
+.hot-button.spent .label {
+  visibility: visible;
+  opacity: 1;
+  color: var(--muted);
+}
+.hot-button.spent.spent-hot .label   { color: #d96a5e; }
+.hot-button.spent.spent-cool .label  { color: #d4b97a; }
 
 /* ============= FLOOR ============= */
 #floor {
@@ -325,9 +350,18 @@ body {
   100% { transform: rotate(-160deg); }
 }
 
-/* Explode: head flies off, body shudders */
+/* Arm returns to neutral after card dismiss */
+.arm-resetting #arm-right {
+  animation: arm-reset 300ms ease forwards;
+}
+@keyframes arm-reset {
+  from { transform: rotate(-160deg); }
+  to   { transform: rotate(0deg); }
+}
+
+/* Explode: head flies off (knocked down/back by the blast), body shudders */
 .exploding #head {
-  animation: head-fly 1100ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  animation: head-fly 1300ms cubic-bezier(0.25, 0.55, 0.35, 1) forwards;
 }
 .exploding #body {
   animation: body-shudder 180ms 4 ease-in-out;
@@ -343,9 +377,9 @@ body {
 
 @keyframes head-fly {
   0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
-  20%  { transform: translate(-2px, -40px) rotate(-90deg); opacity: 1; }
-  60%  { transform: translate(8px, -130px) rotate(-300deg); opacity: 1; }
-  100% { transform: translate(20px, -180px) rotate(-540deg); opacity: 0; }
+  15%  { transform: translate(6px, -8px) rotate(40deg); opacity: 1; }
+  45%  { transform: translate(22px, 30px) rotate(220deg); opacity: 1; }
+  100% { transform: translate(40px, 140px) rotate(720deg); opacity: 0; }
 }
 @keyframes body-shudder {
   0%, 100% { transform: translateX(0); }
@@ -384,64 +418,191 @@ body {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* ============= SPEECH / OUTCOME ============= */
-.speech {
-  position: absolute;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  background: var(--text);
-  color: #1a1410;
-  padding: 10px 16px;
-  border-radius: 16px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+/* ============= REVEAL CARD ============= */
+#card-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 5, 3, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
-  transition: opacity 220ms ease, transform 220ms ease;
-  pointer-events: none;
-  z-index: 5;
+  transition: opacity 220ms ease;
+  cursor: pointer;
 }
-.speech::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 8px solid transparent;
-  border-top-color: var(--text);
-  border-bottom: 0;
+#card-backdrop.show { opacity: 1; }
+#card-backdrop.hidden { display: none; }
+
+#card {
+  background: linear-gradient(180deg, #1f1812 0%, #14100c 100%);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  padding: 28px 32px 24px;
+  max-width: min(440px, 90vw);
+  text-align: center;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 60px rgba(255, 130, 60, 0.25);
+  cursor: default;
+  transform: scale(0.85);
+  opacity: 0;
+  transition: transform 260ms cubic-bezier(0.2, 1.4, 0.4, 1), opacity 220ms ease;
 }
-.speech.show {
+#card-backdrop.show #card {
+  transform: scale(1);
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
 }
-.speech.hidden { display: none; }
-.speech.enlightenment { background: #f4e4b8; color: #3a2818; }
-.speech.boom { background: #ffd3c4; color: #5a1a10; }
+
+#card.hot {
+  border-color: var(--hot);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 80px rgba(255, 60, 30, 0.5),
+    inset 0 0 30px rgba(140, 30, 20, 0.2);
+}
+#card.cool {
+  border-color: var(--cool);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 80px rgba(255, 215, 100, 0.4),
+    inset 0 0 30px rgba(200, 160, 60, 0.15);
+}
+
+.card-icon {
+  font-size: 4rem;
+  line-height: 1;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 14px rgba(255, 130, 60, 0.6));
+}
+.card-topic {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: 0.1em;
+  margin: 4px 0 14px;
+  color: var(--text);
+}
+#card.hot  .card-topic { color: #ff8a76; text-shadow: 0 0 24px rgba(255, 90, 60, 0.55); }
+#card.cool .card-topic { color: var(--cool); text-shadow: 0 0 24px rgba(255, 215, 100, 0.4); }
+
+.card-blurb {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: #d8c8a8;
+  margin: 0 0 22px;
+}
+
+.card-dismiss {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--muted);
+  border-radius: 6px;
+  padding: 9px 22px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+#card.hot  .card-dismiss { border-color: var(--hot); color: #ff8a76; }
+#card.cool .card-dismiss { border-color: var(--cool); color: var(--cool); }
+.card-dismiss:hover {
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-1px);
+}
 
 /* ============= BOOM overlay ============= */
 #boom {
   position: absolute;
-  font-size: 8rem;
+  font-size: 13rem;
+  line-height: 1;
   pointer-events: none;
-  z-index: 6;
+  z-index: 8;
   transform: translate(-50%, -50%) scale(0);
   transition: none;
-  filter: drop-shadow(0 0 24px rgba(255, 130, 60, 0.8));
+  filter: drop-shadow(0 0 32px rgba(255, 130, 60, 0.95))
+          drop-shadow(0 0 60px rgba(255, 50, 20, 0.6));
 }
 #boom.go {
-  animation: boom-pop 700ms ease-out forwards;
+  animation: boom-pop 900ms ease-out forwards;
 }
 #boom.hidden { display: none; }
 
 @keyframes boom-pop {
   0%   { transform: translate(-50%, -50%) scale(0)   rotate(0); opacity: 0; }
-  30%  { transform: translate(-50%, -50%) scale(1.4) rotate(-12deg); opacity: 1; }
-  70%  { transform: translate(-50%, -50%) scale(1.1) rotate(8deg); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1.6) rotate(0); opacity: 0; }
+  20%  { transform: translate(-50%, -50%) scale(1.9) rotate(-15deg); opacity: 1; }
+  55%  { transform: translate(-50%, -50%) scale(1.5) rotate(10deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.4) rotate(-4deg); opacity: 0; }
+}
+
+/* Shockwave ring expanding from the button */
+#shockwave {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 235, 200, 0.95);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 7;
+  opacity: 0;
+  box-shadow: 0 0 30px rgba(255, 200, 100, 0.6);
+}
+#shockwave.go { animation: shockwave 700ms cubic-bezier(0.15, 0.7, 0.3, 1); }
+#shockwave.hidden { display: none; }
+@keyframes shockwave {
+  0%   { transform: translate(-50%, -50%) scale(0.1); opacity: 1; border-width: 8px; }
+  100% { transform: translate(-50%, -50%) scale(14);  opacity: 0; border-width: 1px; }
+}
+
+/* Fireball glow at the button */
+#fireball {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    #ffeb3b 0%,
+    #ff9234 25%,
+    #e23a2e 55%,
+    rgba(226, 58, 46, 0.3) 75%,
+    transparent 90%);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 7;
+  filter: blur(6px);
+  mix-blend-mode: screen;
+}
+#fireball.go { animation: fireball 700ms ease-out; }
+#fireball.hidden { display: none; }
+@keyframes fireball {
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0; }
+  25%  { transform: translate(-50%, -50%) scale(2.6); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(4.5); opacity: 0; }
+}
+
+/* Stage-level debris (spawned at button position) */
+#stage-debris {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+  overflow: visible;
+}
+.debris-dot {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: debris-fly 1100ms cubic-bezier(0.2, 0.7, 0.4, 1) forwards;
+  box-shadow: 0 0 8px currentColor;
+}
+@keyframes debris-fly {
+  0%   { transform: translate(-50%, -50%) rotate(0); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot)); opacity: 0; }
 }
 
 /* Enlightenment glow */

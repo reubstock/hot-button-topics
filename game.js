@@ -1,58 +1,69 @@
-// Hot Button Topics — curated list
+// Hot Button Topics — curated list with reveal blurbs.
 // "hot: true" makes the character's head explode.
 // "hot: false" returns Enlightenment.
 const TOPICS = [
-  // The classics — third-rail at any dinner party
-  { label: "Politics",          hot: true  },
-  { label: "Religion",          hot: true  },
-  { label: "Abortion",          hot: true  },
-  { label: "Gun Control",       hot: true  },
-  { label: "Immigration",       hot: true  },
-  { label: "Climate Change",    hot: true  },
-  { label: "Israel / Palestine",hot: true  },
-  { label: "Trans Rights",      hot: true  },
-  { label: "Vaccines",          hot: true  },
-  { label: "Race",              hot: true  },
-  { label: "Your Salary",       hot: true  },
-  { label: "Cancel Culture",    hot: true  },
+  // The third rails
+  { label: "Politics",           hot: true,  blurb: "You picked a team out loud. The other team is here. Goodnight." },
+  { label: "Religion",           hot: true,  blurb: "Two thousand years of theology against three thousand years of theology. Mostly with forks." },
+  { label: "Abortion",           hot: true,  blurb: "There is no version of this conversation where you don't lose someone." },
+  { label: "Gun Control",        hot: true,  blurb: "Half the room cites the constitution. The other half cites the news. Nobody updates." },
+  { label: "Immigration",        hot: true,  blurb: "Everyone at this table is now an immigration economist." },
+  { label: "Climate Change",     hot: true,  blurb: "The science is settled. The dinner is not." },
+  { label: "Israel / Palestine", hot: true,  blurb: "Pick a side. You're wrong." },
+  { label: "Trans Rights",       hot: true,  blurb: "Whatever you said, someone is writing the Substack already." },
+  { label: "Vaccines",           hot: true,  blurb: "'I'm just asking questions' has entered the chat. The chat is now four hours long." },
+  { label: "Race",               hot: true,  blurb: "Best case scenario: you stayed quiet. You did not stay quiet." },
+  { label: "Your Salary",        hot: true,  blurb: "Telling them was a one-way door. The door has locked." },
+  { label: "Cancel Culture",     hot: true,  blurb: "Ironic, given what just happened to your head." },
 
-  // The safe ones — pure enlightenment
-  { label: "The Weather",       hot: false },
-  { label: "Dogs vs Cats",      hot: false },
-  { label: "Pizza Toppings",    hot: false },
-  { label: "Best Pixar Movie",  hot: false },
-  { label: "Coffee Order",      hot: false },
-  { label: "Naps",              hot: false },
-  { label: "Houseplants",       hot: false },
-  { label: "Beach or Mountain", hot: false },
-  { label: "Cilantro",          hot: false },
-  { label: "Tabs vs Spaces",    hot: false },
-  { label: "The Oxford Comma",  hot: false },
-  { label: "Sourdough",         hot: false },
+  // Safely enlightening
+  { label: "The Weather",        hot: false, blurb: "Universally safe. The diplomatic protocol of elevators worldwide." },
+  { label: "Dogs vs Cats",       hot: false, blurb: "A divide so old it has achieved zen. The dogs do not care. The cats never did." },
+  { label: "Pizza Toppings",     hot: false, blurb: "Pineapple is on the menu. Civilization, somehow, holds." },
+  { label: "Best Pixar Movie",   hot: false, blurb: "It's Up. It is always Up. Anyone who says otherwise will cry in ten minutes anyway." },
+  { label: "Coffee Order",       hot: false, blurb: "Whatever you ordered, the barista has heard worse before noon." },
+  { label: "Naps",               hot: false, blurb: "Universally pro. The closest the species has come to peace." },
+  { label: "Houseplants",        hot: false, blurb: "You will be told your fiddle leaf needs 'more indirect light'. You will nod." },
+  { label: "Beach or Mountain",  hot: false, blurb: "Correct answer: whichever one you're currently at." },
+  { label: "Cilantro",           hot: false, blurb: "Some taste soap. They are not wrong. They are also not invited back." },
+  { label: "Tabs vs Spaces",     hot: false, blurb: "Developers know the answer is tabs. They use spaces anyway. Move on." },
+  { label: "The Oxford Comma",   hot: false, blurb: "Defended by people who own three dictionaries and one cat." },
+  { label: "Sourdough",          hot: false, blurb: "A 2020 pandemic hobby. Still hanging around the kitchen out of obligation." },
 ];
 
-const ENLIGHTENMENT_LINES = [
-  "Enlightenment.",
-  "Inner peace.",
-  "Mmm. Nice.",
-  "Pure serenity.",
-  "Ahhh.",
-  "All is well.",
+// Button color palette — anything except red and green (those telegraph hot/safe).
+const BUTTON_COLORS = [
+  { light: "#7ab3ff", base: "#3a7dff", dark: "#1a4a99", glow: "rgba(60, 130, 255, 0.55)" },
+  { light: "#c98aff", base: "#a155ff", dark: "#6024aa", glow: "rgba(160, 80, 255, 0.55)" },
+  { light: "#ffa3c8", base: "#ff5fa5", dark: "#a02565", glow: "rgba(255, 100, 170, 0.55)" },
+  { light: "#ffe585", base: "#ffd23f", dark: "#b08010", glow: "rgba(255, 210, 60, 0.55)" },
+  { light: "#7cf5e6", base: "#2ee8d0", dark: "#168a7c", glow: "rgba(46, 230, 200, 0.55)" },
+  { light: "#e88adf", base: "#d147c4", dark: "#7a1f72", glow: "rgba(210, 80, 200, 0.55)" },
+  { light: "#ffb878", base: "#ff9234", dark: "#a85a10", glow: "rgba(255, 150, 60, 0.55)" },
+  { light: "#d5c6ff", base: "#b9a4ff", dark: "#7058c2", glow: "rgba(190, 170, 255, 0.55)" },
+  { light: "#5fc8c4", base: "#1ea5a1", dark: "#0b6260", glow: "rgba(40, 180, 175, 0.55)" },
+  { light: "#f0d27a", base: "#d4af37", dark: "#8a6810", glow: "rgba(220, 180, 60, 0.55)" },
 ];
 
 const wall = document.getElementById("wall");
 const avatarWrap = document.getElementById("avatar-wrap");
-const avatar = document.getElementById("avatar");
-const speech = document.getElementById("speech");
 const boom = document.getElementById("boom");
+const shockwave = document.getElementById("shockwave");
+const fireball = document.getElementById("fireball");
 const flash = document.getElementById("flash");
 const stage = document.getElementById("stage");
-const debrisLayer = document.getElementById("debris");
-const head = document.getElementById("head");
+const stageDebris = document.getElementById("stage-debris");
 const hitsEl = document.getElementById("hits");
 const boomsEl = document.getElementById("booms");
 const resetBtn = document.getElementById("reset");
 const floor = document.getElementById("floor");
+
+const cardBackdrop = document.getElementById("card-backdrop");
+const card = document.getElementById("card");
+const cardIcon = document.getElementById("card-icon");
+const cardTopic = document.getElementById("card-topic");
+const cardBlurb = document.getElementById("card-blurb");
+const cardDismiss = document.getElementById("card-dismiss");
 
 // Walking speed: pixels per second
 const WALK_PX_PER_SEC = 280;
@@ -63,7 +74,6 @@ let hits = 0;
 let booms = 0;
 let busy = false;
 
-// Shuffle topics for replayability
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -73,15 +83,23 @@ function shuffle(arr) {
   return a;
 }
 
+function pickColor() {
+  return BUTTON_COLORS[Math.floor(Math.random() * BUTTON_COLORS.length)];
+}
+
 function renderWall() {
-  wall.innerHTML = "";
+  wall.innerHTML = '<div class="wall-sign">⚠ HIGH VOLTAGE</div>';
   const shuffled = shuffle(TOPICS);
   shuffled.forEach((topic) => {
+    const color = pickColor();
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "hot-button";
     btn.dataset.hot = topic.hot ? "1" : "0";
-    btn.dataset.label = topic.label;
+    btn.style.setProperty("--btn-light", color.light);
+    btn.style.setProperty("--btn-base",  color.base);
+    btn.style.setProperty("--btn-dark",  color.dark);
+    btn.style.setProperty("--btn-glow",  color.glow);
     btn.innerHTML = `<span class="dome"></span><span class="label">${topic.label}</span>`;
     btn.addEventListener("click", () => handlePress(btn, topic));
     wall.appendChild(btn);
@@ -90,44 +108,37 @@ function renderWall() {
 
 function setBusy(state) {
   busy = state;
-  document.querySelectorAll(".hot-button").forEach(b => b.disabled = state);
+  document.querySelectorAll(".hot-button:not(.spent)").forEach(b => b.disabled = state);
 }
 
-function clearSpeech() {
-  speech.classList.remove("show", "enlightenment", "boom");
-  speech.textContent = "";
-}
+// ----- coordinate helpers (stage-relative) -----
+function stageRect() { return stage.getBoundingClientRect(); }
 
-function showSpeech(text, type) {
-  speech.classList.remove("hidden");
-  speech.textContent = text;
-  speech.classList.add("show", type);
-}
-
-// Compute target X for avatar (centered under the button)
-function getTargetX(btn) {
+function buttonCenterInStage(btn) {
   const dome = btn.querySelector(".dome");
-  const rect = dome.getBoundingClientRect();
-  const floorRect = floor.getBoundingClientRect();
-  return rect.left + rect.width / 2 - floorRect.left;
+  const r = dome.getBoundingClientRect();
+  const s = stageRect();
+  return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top };
+}
+
+function targetXForFloor(btn) {
+  const dome = btn.querySelector(".dome");
+  const r = dome.getBoundingClientRect();
+  const f = floor.getBoundingClientRect();
+  return r.left + r.width / 2 - f.left;
 }
 
 async function handlePress(btn, topic) {
-  if (busy) return;
+  if (busy || btn.classList.contains("spent")) return;
   setBusy(true);
-  clearSpeech();
 
+  // Walk
   const startLeft = avatarWrap.getBoundingClientRect().left + avatarWrap.offsetWidth / 2 - floor.getBoundingClientRect().left;
-  const targetX = getTargetX(btn);
+  const targetX = targetXForFloor(btn);
 
-  // Face the right direction
-  if (targetX < startLeft - 4) {
-    avatarWrap.classList.add("facing-left");
-  } else if (targetX > startLeft + 4) {
-    avatarWrap.classList.remove("facing-left");
-  }
+  if (targetX < startLeft - 4) avatarWrap.classList.add("facing-left");
+  else if (targetX > startLeft + 4) avatarWrap.classList.remove("facing-left");
 
-  // Walk — scale duration by distance so speed is constant
   const distance = Math.abs(targetX - startLeft);
   const walkMs = Math.max(WALK_MIN_MS, Math.min(WALK_MAX_MS, (distance / WALK_PX_PER_SEC) * 1000));
   avatarWrap.style.transition = `left ${walkMs}ms cubic-bezier(0.45, 0.05, 0.55, 0.95)`;
@@ -138,89 +149,163 @@ async function handlePress(btn, topic) {
     await waitForTransition(avatarWrap, "left");
     avatarWrap.classList.remove("walking");
   }
-
-  // Face forward to press
   avatarWrap.classList.remove("facing-left");
 
-  // Press arm up
+  // Press
   avatarWrap.classList.add("pressing");
   await sleep(220);
   btn.classList.add("pressing");
-  await sleep(180);
+  await sleep(160);
 
-  // Outcome
+  // Outcome plays at the button
+  const center = buttonCenterInStage(btn);
   if (topic.hot) {
-    await explode(btn);
+    await explodeAt(center);
   } else {
-    await enlighten(btn);
+    await enlightenAt(center);
   }
 
-  // Reset button visual
+  // Reveal card
+  await showCard(topic);
+
+  // Wind down — arm back, button locked open with label revealed
   btn.classList.remove("pressing");
-  avatarWrap.classList.remove("pressing");
+  avatarWrap.classList.add("arm-resetting");
+  setTimeout(() => avatarWrap.classList.remove("arm-resetting", "pressing"), 320);
+
+  // If exploded, regrow the head once the card is dismissed
+  if (topic.hot) {
+    avatarWrap.classList.remove("exploding", "headless");
+    avatarWrap.classList.add("regrowing");
+    await sleep(520);
+    avatarWrap.classList.remove("regrowing");
+  } else {
+    avatarWrap.classList.remove("enlightened");
+  }
+
+  // Mark spent + reveal label
+  btn.classList.add("spent");
+  btn.classList.add(topic.hot ? "spent-hot" : "spent-cool");
+  btn.disabled = true;
 
   setBusy(false);
+
+  // If all spent, no more presses available
+  if (document.querySelectorAll(".hot-button:not(.spent)").length === 0) {
+    // leave alone — user can reset
+  }
 }
 
-async function enlighten(btn) {
-  const line = ENLIGHTENMENT_LINES[Math.floor(Math.random() * ENLIGHTENMENT_LINES.length)];
-  showSpeech(line, "enlightenment");
+async function enlightenAt(center) {
+  // Soft sparkle at the button + aura around avatar's head
+  spawnSparkles(center, 14);
   avatarWrap.classList.add("enlightened");
   hits += 1;
   hitsEl.textContent = hits;
   pulseCounter(hitsEl);
-  await sleep(1400);
-  avatarWrap.classList.remove("enlightened");
-  clearSpeech();
+  await sleep(900);
 }
 
-async function explode(btn) {
-  // Position the boom over the avatar's head
-  const wrapRect = avatarWrap.getBoundingClientRect();
-  const stageRect = stage.getBoundingClientRect();
-  boom.style.left = `${wrapRect.left + wrapRect.width / 2 - stageRect.left}px`;
-  boom.style.top  = `${wrapRect.top - stageRect.top + 18}px`;
-  boom.classList.remove("hidden");
-  boom.classList.remove("go");
-  void boom.offsetWidth;
-  boom.classList.add("go");
+async function explodeAt(center) {
+  // Position FX layers at button
+  positionAt(boom, center);
+  positionAt(shockwave, center);
+  positionAt(fireball, center);
 
-  // Screen flash + shake
-  flash.classList.remove("hidden");
-  flash.classList.remove("go");
-  void flash.offsetWidth;
-  flash.classList.add("go");
+  // Restart animations
+  restartAnimation(boom, "go");
+  restartAnimation(shockwave, "go");
+  restartAnimation(fireball, "go");
+  restartAnimation(flash, "go");
+  restartAnimation(stage, "shake");
 
-  stage.classList.remove("shake");
-  void stage.offsetWidth;
-  stage.classList.add("shake");
+  // Stage-level debris from the button
+  spawnDebrisAt(center, 28);
 
-  // Spawn debris dots
-  spawnDebris(18);
-
-  // Trigger head fly + body shudder
+  // Avatar's head reacts to the blast
   avatarWrap.classList.add("exploding");
-  showSpeech("💥 HOT!", "boom");
-  await sleep(1100);
+
+  await sleep(1300);
   avatarWrap.classList.add("headless");
 
   booms += 1;
   boomsEl.textContent = booms;
   pulseCounter(boomsEl);
 
-  await sleep(900);
+  // Brief beat before the card pops up
+  await sleep(280);
 
-  // Regrow head
-  avatarWrap.classList.remove("exploding", "headless");
-  avatarWrap.classList.add("regrowing");
-  clearDebris();
-  clearSpeech();
-  boom.classList.remove("go");
+  // Clean up FX layers (they've already faded)
   boom.classList.add("hidden");
+  shockwave.classList.add("hidden");
+  fireball.classList.add("hidden");
   flash.classList.add("hidden");
   stage.classList.remove("shake");
-  await sleep(520);
-  avatarWrap.classList.remove("regrowing");
+}
+
+function positionAt(el, center) {
+  el.classList.remove("hidden");
+  el.style.left = `${center.x}px`;
+  el.style.top  = `${center.y}px`;
+}
+
+function restartAnimation(el, className) {
+  el.classList.remove(className);
+  void el.offsetWidth;
+  el.classList.add(className);
+}
+
+function spawnDebrisAt(center, count) {
+  clearDebris();
+  const palette = ["#ff5050", "#ffb347", "#ffd76b", "#f0c9a3", "#ffffff", "#ff8a3a"];
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement("div");
+    dot.className = "debris-dot";
+    const size = 5 + Math.random() * 7;
+    dot.style.width = `${size}px`;
+    dot.style.height = `${size}px`;
+    const color = palette[Math.floor(Math.random() * palette.length)];
+    dot.style.background = color;
+    dot.style.color = color; // for the box-shadow glow via currentColor
+    dot.style.left = `${center.x}px`;
+    dot.style.top  = `${center.y}px`;
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 90 + Math.random() * 200;
+    dot.style.setProperty("--dx", `${Math.cos(angle) * dist}px`);
+    dot.style.setProperty("--dy", `${Math.sin(angle) * dist}px`);
+    dot.style.setProperty("--rot", `${(Math.random() * 720 - 360)}deg`);
+    stageDebris.appendChild(dot);
+  }
+  // Remove debris after they finish animating
+  setTimeout(clearDebris, 1300);
+}
+
+function spawnSparkles(center, count) {
+  clearDebris();
+  const palette = ["#ffd76b", "#fff3c0", "#ffeb9c", "#ffffff"];
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement("div");
+    dot.className = "debris-dot";
+    const size = 4 + Math.random() * 5;
+    dot.style.width = `${size}px`;
+    dot.style.height = `${size}px`;
+    const color = palette[Math.floor(Math.random() * palette.length)];
+    dot.style.background = color;
+    dot.style.color = color;
+    dot.style.left = `${center.x}px`;
+    dot.style.top  = `${center.y}px`;
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 50 + Math.random() * 90;
+    dot.style.setProperty("--dx", `${Math.cos(angle) * dist}px`);
+    dot.style.setProperty("--dy", `${Math.sin(angle) * dist}px`);
+    dot.style.setProperty("--rot", `${(Math.random() * 360 - 180)}deg`);
+    stageDebris.appendChild(dot);
+  }
+  setTimeout(clearDebris, 1300);
+}
+
+function clearDebris() {
+  while (stageDebris.firstChild) stageDebris.removeChild(stageDebris.firstChild);
 }
 
 function pulseCounter(el) {
@@ -229,30 +314,45 @@ function pulseCounter(el) {
   el.classList.add("pulse");
 }
 
-function spawnDebris(n) {
-  clearDebris();
-  for (let i = 0; i < n; i++) {
-    const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    dot.setAttribute("cx", "30");
-    dot.setAttribute("cy", "24");
-    dot.setAttribute("r", String(1.2 + Math.random() * 1.6));
-    const palette = ["#e23a2e", "#ffb347", "#f0c9a3", "#922c2c", "#ffd76b"];
-    dot.setAttribute("fill", palette[Math.floor(Math.random() * palette.length)]);
-    dot.classList.add("debris-dot");
-    const angle = (Math.PI * (Math.random() * 1.0 + 1.0)) * -1; // upward arc
-    const dist  = 60 + Math.random() * 80;
-    const dx = Math.cos(angle) * dist;
-    const dy = Math.sin(angle) * dist;
-    const rot = (Math.random() * 720 - 360) + "deg";
-    dot.style.setProperty("--dx", `${dx}px`);
-    dot.style.setProperty("--dy", `${dy}px`);
-    dot.style.setProperty("--rot", rot);
-    debrisLayer.appendChild(dot);
-  }
-}
+// ----- card flow -----
+function showCard(topic) {
+  cardIcon.textContent = topic.hot ? "💥" : "✨";
+  cardTopic.textContent = topic.label;
+  cardBlurb.textContent = topic.blurb;
+  card.classList.toggle("hot",  topic.hot);
+  card.classList.toggle("cool", !topic.hot);
+  cardDismiss.textContent = topic.hot ? "Replace head & continue" : "Embrace inner peace";
 
-function clearDebris() {
-  while (debrisLayer.firstChild) debrisLayer.removeChild(debrisLayer.firstChild);
+  cardBackdrop.classList.remove("hidden");
+  cardBackdrop.setAttribute("aria-hidden", "false");
+  // next frame, trigger transitions
+  requestAnimationFrame(() => cardBackdrop.classList.add("show"));
+
+  return new Promise((resolve) => {
+    let done = false;
+    const close = (e) => {
+      if (done) return;
+      // ignore clicks inside the card (only backdrop clicks dismiss)
+      if (e && e.type === "click" && e.target !== cardBackdrop && e.target !== cardDismiss) return;
+      done = true;
+      cleanup();
+      cardBackdrop.classList.remove("show");
+      cardBackdrop.setAttribute("aria-hidden", "true");
+      setTimeout(() => cardBackdrop.classList.add("hidden"), 240);
+      resolve();
+    };
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    const cleanup = () => {
+      cardBackdrop.removeEventListener("click", close);
+      cardDismiss.removeEventListener("click", close);
+      document.removeEventListener("keydown", onKey);
+      clearTimeout(autoT);
+    };
+    cardBackdrop.addEventListener("click", close);
+    cardDismiss.addEventListener("click", close);
+    document.addEventListener("keydown", onKey);
+    const autoT = setTimeout(close, 7000);
+  });
 }
 
 function sleep(ms) {
@@ -270,8 +370,7 @@ function waitForTransition(el, prop) {
       resolve();
     };
     el.addEventListener("transitionend", finish);
-    // Safety fallback in case transitionend doesn't fire
-    setTimeout(finish, 1500);
+    setTimeout(finish, 2000);
   });
 }
 
@@ -282,26 +381,20 @@ resetBtn.addEventListener("click", () => {
   hitsEl.textContent = "0";
   boomsEl.textContent = "0";
   renderWall();
-  // Snap avatar back to center without animating
   avatarWrap.style.transition = "none";
   const floorRect = floor.getBoundingClientRect();
   avatarWrap.style.left = `${floorRect.width / 2}px`;
-  avatarWrap.classList.remove("facing-left", "walking", "pressing", "exploding", "headless", "regrowing", "enlightened");
+  avatarWrap.classList.remove("facing-left", "walking", "pressing", "exploding", "headless", "regrowing", "enlightened", "arm-resetting");
   clearDebris();
-  clearSpeech();
-  // Restore default transition on next frame
   requestAnimationFrame(() => { avatarWrap.style.transition = ""; });
 });
 
-// Initial render — position avatar at center of floor after layout
 window.addEventListener("load", () => {
   renderWall();
-  // Center the avatar in the floor (use pixel left so transitions work)
   const floorRect = floor.getBoundingClientRect();
   avatarWrap.style.left = `${floorRect.width / 2}px`;
 });
 
-// Reposition on resize so the avatar stays sensible
 let resizeT;
 window.addEventListener("resize", () => {
   clearTimeout(resizeT);
